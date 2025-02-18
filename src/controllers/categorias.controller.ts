@@ -75,6 +75,20 @@ export class CategoriaController {
 
             let resultado = await Categoria.find({$or:[{nombreCategoria:{ $regex: search, $options: 'i' }},{tipoCategoria:{ $regex:search , $options:'i'}}]})
 
+            if(!resultado.length){
+
+                res.status(200).json({          
+                    datos: [],
+                    metadatos:{
+                        total: 0,
+                        paginas: 1,
+                        actual:1,
+                        paginacion:10
+                    }
+                })
+                return
+            }
+
 
             if (sort && sort=== "-nombreCategoria"){
 

@@ -45,6 +45,20 @@ export class ColorController{
                    
             let resultado =await Color.find({$or:[{nombreColor:{ $regex: search, $options: 'i' }},{codigoColor:{ $regex: search, $options: 'i' }}]}).sort({"nombreColor":1})
 
+            if(!resultado.length){
+
+                res.status(200).json({          
+                    datos: [],
+                    metadatos:{
+                        total: 0,
+                        paginas: 1,
+                        actual:1,
+                        paginacion:10
+                    }
+                })
+                return
+            }
+
                       
             if (sort && sort=== "-codigoColor"){
 

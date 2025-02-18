@@ -5,6 +5,8 @@ import { conectarBD } from './config/db'
 import { handleErrors } from './utils/handleErrors'
 import { notFound } from './utils/notFound'
 import fileUpload from 'express-fileupload'
+import cors from 'cors'
+import { corsConfig } from './config/cors'
 
 // routes
 import colorRouter  from './routes/colores.router'
@@ -15,7 +17,8 @@ const app = express()
 app.use(express.json({limit:'10mb'}))
 app.use(fileUpload())
 app.use(express.static('./public'))
-
+// habilitamos cors
+app.use(cors(corsConfig))
 
 app.use('/api/colores',colorRouter)
 app.use('/api/categorias',categoriaRouter)

@@ -17,6 +17,7 @@ express-validator: para validar la entrada de datos válidos por parte del usuar
 
 ## -----------------------------------------------
 npm i express typescript ts-node dotenv morgan mongoose express-validator @types/express @types/morgan
+npm i cors @types/cors
 npm i slugify
 
 ## -----------------------------------------------
@@ -540,3 +541,41 @@ Para que el codigo, slug o nombres de carpetas y archivos no tenga espacios
 npm i slugify
 
 slugify(variable,'-')
+-------------------------------------------------------------------------------------------
+
+## ) cors
+... en el index.ts
+import cors from 'cors'
+import { corsConfig } from './config/cors'
+...
+// habilitamos cors
+app.use(cors(corsConfig))
+
+-----------------------------------------------------------
+en ./config/cors
+cors.ts
+import { CorsOptions } from "cors";
+
+export const corsConfig:CorsOptions={
+
+    
+
+
+    origin:function(origin,callback){
+        const dominiosPermitidos =[process.env.FRONTEND_URL]
+        if (process.argv[2]==="--api"){
+            dominiosPermitidos.push(undefined)
+        }
+      
+        if (dominiosPermitidos.includes(origin)){
+
+            callback(null,true)
+        }else{
+            callback(new Error('Error de cors'))
+        }
+    }
+}
+---------------------------------------------
+en el .env
+
+FRONTEND_URL=http://api.caterinaweb.website
